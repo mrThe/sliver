@@ -64,9 +64,19 @@ freebsd_arm:
 	go generate 2>&1 | tee log-generate
 	go build -v ./...
 
+freebsd_arm64:
+	go run addport.go freebsd_amd64 freebsd_arm64
+	go build -v ./...
+
 # only on netbsd/amd64
 netbsd_amd64:
 	@echo "Should be executed only on netbsd/amd64."
+	go generate 2>&1 | tee log-generate
+	go build -v ./...
+
+# only on netbsd/arm
+netbsd_arm:
+	@echo "Should be executed only on netbsd/arm."
 	go generate 2>&1 | tee log-generate
 	go build -v ./...
 
@@ -101,6 +111,12 @@ openbsd_amd64:
 	go generate 2>&1 | tee log-generate
 	go build -v ./...
 	#
+# only on openbsd/386
+openbsd_386:
+	@echo "Should be executed only on openbsd/386."
+	go generate 2>&1 | tee log-generate
+	go build -v ./...
+	
 # only on openbsd/arm64
 openbsd_arm64:
 	@echo "Should be executed only on openbsd/arm64."
@@ -151,7 +167,7 @@ edit:
 	@if [ -f "Session.vim" ]; then gvim -S & else gvim -p Makefile *.go & fi
 
 editor:
-	go generate 2>&1 | tee log
+	# go generate 2>&1 | tee log
 	gofmt -l -s -w *.go
 	go test -short 2>&1 | tee -a log
 	go install -v ./...
